@@ -36,6 +36,17 @@ public static class Exceptor
     }
 
     /// <summary>
+    /// Throw exception.
+    /// </summary>
+    /// <param name="exception"></param>
+    public static void ThrowException(Exception exception)
+    {
+        ThrowExceptionIfExceptionNull(exception);
+
+        throw exception;
+    }
+
+    /// <summary>
     /// Object is a null?
     /// </summary>
     /// <param name="verifiable"></param>
@@ -82,12 +93,5 @@ public static class Exceptor
     {
         if (exception == null)
             ThrowException(new ArgumentNullException("Exception is null"));
-    }
-
-    private static void ThrowException(Exception exception)
-    {
-        ThrowExceptionIfExceptionNull(exception);
-
-        throw exception;
     }
 }
