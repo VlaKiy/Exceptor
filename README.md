@@ -1,7 +1,24 @@
 # Exceptor v.1.2.1
 
 ## Map
-[TOC]
+* [Exceptor v.1.2.1](#exceptor-v121)
+* [Map](#map)
+* [Installation](#installation)
+* [Features](#features)
+	* [Exceptions](#exceptions)
+		* [ThrowException](#throwexception)
+		* [ThrowIfNull](#throwifnull)
+		* [ThrowIfTrue](#throwiftrue)
+		* [ThrowIfFalse](#throwiffalse)
+		* [ThrowIfNotFind](#throwifnotfind)
+	* [Debugs](#debugs)
+		* [ThrowDebug](#throwdebug)
+		* [ThrowDebugIfFalse](#throwdebugiffalse)
+		* [ThrowDebugIfTrue](#throwdebugiftrue)
+		* [DebugMods](#debugmods)
+	* [Other features](#other-features)
+		* [IsNull](#isnull)
+		* [IsNumericType](#isnumerictype)
 
 ## Installation
 
