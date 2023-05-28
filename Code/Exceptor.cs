@@ -112,7 +112,7 @@ public static class Exceptor
     public static bool IsNull(this object verifiable)
     {
         if (verifiable.IsNumericType())
-            throw new ArgumentException("Can't check on null numeric type. Please don't use numeric type.", "verifiable");
+            throw new InvalidOperationException("Can't check on null numeric type! Please don't use numeric type!");
 
         return verifiable == null;
     }
