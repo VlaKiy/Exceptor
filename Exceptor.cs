@@ -82,7 +82,26 @@ public static class Exceptor
         return false;
     }
 
-    
+    /// <summary>
+    /// Throw exception if typeForFind not be found in list whereFind. 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="typeForFind"></param>
+    /// <param name="whereFind"></param>
+    /// <param name="exception"></param>
+    public static void ThrowIfNotFind<T>(T typeForFind, List<T> whereFind, Exception exception) where T : Object
+    {
+        ThrowIfNull(typeForFind, new ArgumentNullException("typeForFind", "Type for find is null"));
+        ThrowIfNull(whereFind, new ArgumentNullException("whereFind", "Types where find is null"));
+
+        foreach (var typeWhereFind in whereFind)
+        {
+            if (typeForFind == typeWhereFind)
+                break;
+            else
+                ThrowException(exception);
+        }
+    }
 
     /// <summary>
     /// Object is a null?
