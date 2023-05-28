@@ -1,7 +1,7 @@
-# Exceptor v.1.2.1
+# Exceptor v.1.2.2
 
 ## Map
-* [Exceptor v.1.2.1](#exceptor-v121)
+* [Exceptor v.1.2.2](#exceptor-v121)
 * [Map](#map)
 * [Installation](#installation)
 * [Features](#features)
@@ -22,7 +22,7 @@
 
 ## Installation
 
-Download **Exceptor.cs** in your project.
+Download **Code** folder in your project.
 
 ## Features
 
