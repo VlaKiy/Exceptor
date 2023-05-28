@@ -1,7 +1,7 @@
-# Exceptor v.1.2.2
+# Exceptor v.1.2.3
 
 ## Map
-* [Exceptor v.1.2.2](#exceptor-v121)
+* [Exceptor v.1.2.3](#exceptor-v121)
 * [Map](#map)
 * [Installation](#installation)
 * [Features](#features)
