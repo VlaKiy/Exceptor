@@ -94,12 +94,26 @@ public static class Exceptor
         ThrowIfNull(typeForFind, new ArgumentNullException("typeForFind", "Type for find is null"));
         ThrowIfNull(whereFind, new ArgumentNullException("whereFind", "Types where find is null"));
 
+        bool isFinded = false;
+
         foreach (var typeWhereFind in whereFind)
         {
-            if (typeForFind == typeWhereFind)
+            bool isSimilar = typeForFind == typeWhereFind;
+
+            if (isSimilar)
+            {
+                isFinded = true;
                 break;
+            }
             else
-                ThrowException(exception);
+            {
+                continue;
+            }
+        }
+
+        if (!isFinded)
+        {
+            ThrowException(exception);
         }
     }
 
