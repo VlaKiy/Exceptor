@@ -28,6 +28,16 @@ public static class Exceptor
     }
 
     /// <summary>
+    /// Throw debug with mode.
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="mode"></param>
+    public static void ThrowDebug(string message, DebugMode mode = DebugMode.Log)
+    {
+        ThrowDebugWithMode(message, mode);
+    }
+
+    /// <summary>
     /// Throw debug with mode if result of condition False.
     /// </summary>
     /// <param name="condition"></param>
@@ -71,6 +81,8 @@ public static class Exceptor
 
         return false;
     }
+
+    
 
     /// <summary>
     /// Object is a null?
@@ -136,11 +148,6 @@ public static class Exceptor
         {
             ThrowException(new ArgumentNullException("Exception is null"));
         }
-    }
-
-    private static void ThrowDebug(string message, DebugMode mode = DebugMode.Log)
-    {
-        ThrowDebugWithMode(message, mode);
     }
 
     private static void ThrowDebugWithMode(string message, DebugMode mode = DebugMode.Log)
