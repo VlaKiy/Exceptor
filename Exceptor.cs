@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 public static class Exceptor
 {
@@ -25,6 +28,23 @@ public static class Exceptor
     }
 
     /// <summary>
+    /// Throw debug with mode if result of condition False.
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <param name="message"></param>
+    /// <param name="mode"></param>
+    public static bool ThrowDebugIfFalse(bool condition, string message, DebugMode mode = DebugMode.Log)
+    {
+        if (!condition)
+        {
+            ThrowDebug(message, mode);
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Throw exception if result of condition true.
     /// </summary>
     /// <param name="condition"></param>
@@ -36,14 +56,20 @@ public static class Exceptor
     }
 
     /// <summary>
-    /// Throw exception.
+    /// Throw debug with mode if result of condition true.
     /// </summary>
-    /// <param name="exception"></param>
-    public static void ThrowException(Exception exception)
+    /// <param name="condition"></param>
+    /// <param name="message"></param>
+    /// <param name="mode"></param>
+    public static bool ThrowDebugIfTrue(bool condition, string message, DebugMode mode = DebugMode.Log)
     {
-        ThrowExceptionIfExceptionNull(exception);
+        if (condition)
+        {
+            ThrowDebug(message, mode);
+            return true;
+        }
 
-        throw exception;
+        return false;
     }
 
     /// <summary>
@@ -68,9 +94,13 @@ public static class Exceptor
     public static bool IsNumericType(this object obj)
     {
         if (obj.GetType() == null)
+        {
             return false;
+        }
 
-        switch (Type.GetTypeCode(obj.GetType()))
+        TypeCode typeCode = Type.GetTypeCode(obj.GetType());
+
+        switch (typeCode)
         {
             case TypeCode.Byte:
             case TypeCode.SByte:
@@ -89,9 +119,47 @@ public static class Exceptor
         }
     }
 
+    /// <summary>
+    /// Throw exception.
+    /// </summary>
+    /// <param name="exception"></param>
+    public static void ThrowException(Exception exception)
+    {
+        ThrowExceptionIfExceptionNull(exception);
+
+        throw exception;
+    }
+
     private static void ThrowExceptionIfExceptionNull(Exception exception)
     {
         if (exception == null)
+        {
             ThrowException(new ArgumentNullException("Exception is null"));
+        }
+    }
+
+    private static void ThrowDebug(string message, DebugMode mode = DebugMode.Log)
+    {
+        ThrowDebugWithMode(message, mode);
+    }
+
+    private static void ThrowDebugWithMode(string message, DebugMode mode = DebugMode.Log)
+    {
+        ThrowIfNull(message, new ArgumentNullException("Message is empty! Please write message."));
+
+        switch (mode)
+        {
+            case DebugMode.Log:
+                Debug.Log(message);
+                break;
+            case DebugMode.Warning:
+                Debug.LogWarning(message);
+                break;
+            case DebugMode.Error:
+                Debug.LogError(message);
+                break;
+            default:
+                break;
+        }
     }
 }
