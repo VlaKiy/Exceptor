@@ -1,6 +1,9 @@
-public enum DebugMode
+namespace Exceptor.Utilities
 {
-    Log,
-    Warning,
-    Error
+    public enum DebugMode
+    {
+        Log,
+        Warning,
+        Error
+    }
 }
