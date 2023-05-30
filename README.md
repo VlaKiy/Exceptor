@@ -1,178 +1,202 @@
-# Exceptor v.1.2.4
+# Exceptor v2.0.0
 
 ## Map
-* [Exceptor v.1.2.4](#exceptor-v121)
+* [Exceptor v2.0.0](#exceptor-v200)
 * [Map](#map)
 * [Installation](#installation)
+* [Using](#using)
 * [Features](#features)
-	* [Exceptions](#exceptions)
+	* [ExceptionUtilities](#exceptionutilities)
 		* [ThrowException](#throwexception)
 		* [ThrowIfNull](#throwifnull)
-		* [ThrowIfTrue](#throwiftrue)
-		* [ThrowIfFalse](#throwiffalse)
-		* [ThrowIfNotFind](#throwifnotfind)
-	* [Debugs](#debugs)
-		* [ThrowDebug](#throwdebug)
-		* [ThrowDebugIfFalse](#throwdebugiffalse)
-		* [ThrowDebugIfTrue](#throwdebugiftrue)
+		* [ThrowIfNull (Array)](#throwifnull-array)
+		* [ThrowIfOutOfRange](#throwifoutofrange)
+		* [ThrowIfValid](#throwifvalid)
+		* [ThrowIfInvalid](#throwifinvalid)
+		* [ThrowIfNotFound](#throwifnotfound)
+	* [DebugUtilities](#debugutilities)
 		* [DebugMods](#debugmods)
-	* [Other features](#other-features)
-		* [IsNull](#isnull)
-		* [IsNumericType](#isnumerictype)
+		* [DebugMessage](#debugmessage)
+		* [DebugIfValid](#debugifvalid)
+		* [DebugIfInvalid](#debugifinvalid)
+	* [DefiningUtilities](#definingutilities)
+		* [IsNumber](#isnumber)
+		* [IsBoolean](#isboolean)
+
+## Advantages
+
+- **Fast** throwing exceptions.
+- Write **less** code.
+- **Easy** to use
 
 ## Installation
 
-Download **Code** folder in your project.
+Download **Exceptor** folder in your project.
+
+## Using
+
+Use `Exceptor.Utilities` namespace in your project:
+```csharp
+using Exceptor.Utilities;
+```
+
+Basically, features are used like this:
+```csharp
+private GameObject _gameObject;
+
+_gameObject.ThrowIfNull("gameObject", "GameObject is null");
+```
+Or like this:
+```csharp
+private GameObject _gameObject;
+
+ExceptorUtilities.ThrowIfNull(_gameObject, "gameObject", "GameObject is null");
+```
 
 ## Features
 
-### Exceptions
+### ExceptionUtilities
 
 #### ThrowException
 
 Throw `exception`.
 
 ```csharp
-Exceptor.ThrowException(Exception exception);
+ExceptionUtilities.ThrowException(Exception exception);
 ```
 
-Example:
+**Example:**
 ```csharp
-using System;
-using UnityEngine;
-
-public class Test : MonoBehaviour {
-  private GameObject _spawnedObject;
-
-  private void Start() 
-  {
-    if (TryFindSpawnedObject(out GameObject gameObj)) 
-    {
-      _spawnedObject = gameObj;
-    }
-    else
-    {
-      Exceptor.ThrowException(new NullReferenceException("Object not be found!"));
-    }
-  }
-
-  private bool TryFindSpawnedObject(out GameObject gameObj) 
-  {
-    // code...
-  }
-}
+_gameObject.ThrowException(new ArgumentNullException("Object not be found!"));
 ```
+
+------------
 
 
 #### ThrowIfNull
 
-Throw `exception` if `verifiable` null.
+Throw `ArgumentNullException` if `object` null.
 
 ```csharp
-Exceptor.ThrowIfNull(object verifiable, Exception exception);
+ExceptionUtilities.ThrowIfNull(this object obj, string paramName = null, string message = null)
 ```
 
-Example:
+**Example:**
 ```csharp
-using System;
-using UnityEngine;
+_gameObject.ThrowIfNull("gameObject", "GameObject is null!");
+```
 
-public class Test : MonoBehaviour {
-  private GameObject _gameObject;
+------------
 
-  private void Start() 
-  {
-    Exceptor.ThrowIfNull(_gameObject, new NullReferenceException("GameObject is null"));
-  }
 
-  private void SetGameObject(GameObject gameObj) 
-  {
-    Exceptor.ThrowIfNull(gameObj, new ArgumentNullException("gameObject", "GameObject is null"));
-  }
+#### ThrowIfNull (Array)
+
+Throw `ArgumentNullException` if element of `objects` array is null.
+
+```csharp
+ExceptionUtilities.ThrowIfNull(this object[] objects, string message = null)
+```
+
+**Example:**
+```csharp
+private void DoSomething(GameObject first, GameObject second, Transform third) 
+{
+	object[] objects = new object[] {first, second, third};
+
+	objects.ThrowIfNull("Object is null!");
 }
 ```
 
-#### ThrowIfTrue
+------------
 
-Throw `exception` if result of `condition` *true*.
 
-```csharp
-Exceptor.ThrowIfTrue(bool condition, Exception exception);
-```
+#### ThrowIfOutOfRange
 
-Example:
-```csharp
-using System;
-using UnityEngine;
-
-public class Test : MonoBehaviour {
-  private int _enemiesCount;
-
-  private void Start() 
-  {
-    Exceptor.ThrowIfTrue(_enemiesCount <= 0, new IndexOutOfRangeException("Enemies count can't be less or equal 0!"));
-  }
-
-  private void SetEnemiesCount(int count) 
-  {
-    Exceptor.ThrowIfTrue(сount <= 0, new ArgumentOutOfRangeException("count", "Count can't be less or equal 0!"));
-  }
-}
-```
-
-#### ThrowIfFalse
-
-Throw `exception` if result of `condition` *false*.
+Throw `ArgumentOutOfRangeException` if `value` is not in `range`.
 
 ```csharp
-Exceptor.ThrowIfFalse(bool condition, Exception exception);
+ExceptionUtilities.ThrowIfOutOfRange<T>(
+	this T value, 
+	T min, T max, 
+	string paramName = null,
+	string message = null
+) where T : IComparable
 ```
 
-Example:
+**Example:**
 ```csharp
-using System;
-using UnityEngine;
-
-public class Test : MonoBehaviour {
-  private int _enemiesCount;
-
-  private void Start() 
-  {
-    Exceptor.ThrowIfFalse(_enemiesCount > 10, new IndexOutOfRangeException("Enemies count can't be more than 10!"));
-  }
-
-  private void SetEnemiesCount(int count) 
-  {
-    Exceptor.ThrowIfFalse(сount > 10, new ArgumentOutOfRangeException("count", "Count can't be more than 10!"));
-  }
-}
+_count.ThrowIfOutOfRange(0, int.MaxValue, "count", "Count can't be less than 0!");
 ```
 
-#### ThrowIfNotFind
+------------
 
-Throw `exception` if `typeForFind` not be found in list `whereFind`.
+
+#### ThrowIfValid
+
+Throw `ArgumentException` if `condition` is `true`.
 
 ```csharp
-Exceptor.ThrowIfNotFind<T>(T typeForFind, List<T> whereFind, Exception exception) where T : Object;
+ExceptionUtilities.ThrowIfValid(
+	this bool condition, 
+	string message = null, 
+	string paramName = null
+)
 ```
 
-Example:
+**Example:**
 ```csharp
-using System;
-using UnityEngine;
+bool _hasObject = true;
 
-public class Test : MonoBehaviour {
-  private IAttackable _attackable;
-  private List<IAttackable> _spawnedAttackables;
-
-  private void Start() 
-  {
-    Exceptor.ThrowIfNotFind<T>(_attackable, _spawnedAttackables, new NullReferenceException("Attackable not be found in list spawned attackables!"));
-  }
-}
+_hasObject.ThrowIfValid("_hasObject", "You can't have object!");
 ```
 
-### Debugs
+------------
+
+
+#### ThrowIfInvalid
+
+Throw `ArgumentException` if `condition` is `false`.
+
+```csharp
+ExceptionUtilities.ThrowIfInvalid(
+	this bool condition, 
+	string message = null, 
+	string paramName = null
+)
+```
+
+**Example:**
+```csharp
+bool _hasObject = false;
+
+_hasObject.ThrowIfInvalid("_hasObject", "You should have object!");
+```
+
+------------
+
+
+#### ThrowIfNotFound
+
+Throw `ArgumentException` if `typeForFind` not be found in list `whereFind`. 
+
+```csharp
+ExceptionUtilities.ThrowIfNotFound<T>(
+	this T typeForFind, 
+	List<T> whereFind, 
+	string message = null, 
+	string paramName = null
+) where T : Object
+```
+
+**Example:**
+```csharp
+_obj.ThrowIfNotFound(_objects, "Obj in list of objects not be found!", "_obj");
+```
+
+------------
+
+
+### DebugUtilities
 
 #### DebugMods
 | Mode  | Description  |
@@ -182,146 +206,112 @@ public class Test : MonoBehaviour {
 | `DebugMode.Error`  | Write** error log** in console.  |
 
 
-#### ThrowDebug
+------------
 
-Throw debug `message` with `debug mode`.
 
-```csharp
-Exceptor.ThrowDebug(string message, DebugMode mode = DebugMode.Log);
-```
+#### DebugMessage
 
-Example:
-```csharp
-using System;
-using UnityEngine;
-
-public class Test : MonoBehaviour {
-  private Sound _sound;
-
-  private void Start() 
-  {
-    if(_sound == null)
-      Exceptor.ThrowDebug("Sound wasn't work!", DebugMode.Warning);
-  }
-}
-```
-
-#### ThrowDebugIfFalse
-
-Throw debug if result of `condition` *false*. If *false* write `message` with `debug mode`.
+Messaging `debug` with `DebugMode`.
 
 ```csharp
-Exceptor.ThrowDebugIfFalse(bool condition, string message, DebugMode mode = DebugMode.Log);
+DebugUtilities.DebugMessage(
+	string message, 
+	DebugMode mode = DebugMode.Log
+)
 ```
 
-Example:
+**Example:**
 ```csharp
-using System;
-using UnityEngine;
-
-public class Test : MonoBehaviour {
-  private int _count;
-
-  private void Start() 
-  {
-    Exceptor.ThrowDebugIfFalse(_count > 0, "Count less or equal 0!", DebugMode.Log);
-  }
-}
+DebugUtilities.DebugMessage("Hello, world", DebugMode.Log);
+DebugUtilities.DebugMessage("Hello, world", DebugMode.Warning);
+DebugUtilities.DebugMessage("Hello, world", DebugMode.Error);
 ```
 
-#### ThrowDebugIfTrue
+------------
 
-Throw debug if result of `condition` *true*. If false write `message` with `debug mode`.
+
+#### DebugIfValid
+
+Messaging `debug` with `DebugMode` if `condition` is `true`.
 
 ```csharp
-Exceptor.ThrowDebugIfTrue(bool condition, string message, DebugMode mode = DebugMode.Log);
+DebugUtilities.DebugIfValid(
+	this bool condition, 
+	string message, 
+	DebugMode debugMode = DebugMode.Log
+)
 ```
 
-Example:
+**Example:**
 ```csharp
-using System;
-using UnityEngine;
+bool _isStayed = true;
 
-public class Test : MonoBehaviour {
-  private int _count;
-
-  private void Start() 
-  {
-    Exceptor.ThrowDebugIfTrue(_count <= 0, "Count less or equal 0!", DebugMode.Error);
-  }
-}
+_isStayed.DebugIfValid("Enemy is stayed!", DebugMode.Log);
 ```
 
-### Other features
+------------
 
-#### IsNull
 
-`Verifiable` is null?
+#### DebugIfInvalid
+
+Messaging `debug` with `DebugMode` if `condition` is `false`.
 
 ```csharp
-object.IsNull();
-Exceptor.IsNull(this object verifiable);
+DebugUtilities.DebugIfInvalid(
+	this bool condition, 
+	string message, 
+	DebugMode debugMode = DebugMode.Log
+)
 ```
 
-Example:
+**Example:**
 ```csharp
-using System;
-using UnityEngine;
+bool _isStayed = false;
 
-public class Test : MonoBehaviour {
-  private GameObject _spawnedObject;
-
-  private void Start() 
-  {
-    if (_spawnedObject.IsNull()) 
-    {
-      Exceptor.ThrowException(new NullReferenceException("SpanedObject is null"));
-    }
-    
-    if (Exceptor.IsNull(_spawnedObject)) 
-    {
-      Exceptor.ThrowException(new NullReferenceException("SpanedObject is null"));
-    }
-  }
-}
+_isStayed.DebugIfInvalid("Enemy is not stayed!", DebugMode.Error);
 ```
 
-#### IsNumericType
+------------
 
-`Object` is a number?
+
+### DefiningUtilities
+
+#### IsNumber
+
+`Object` is a **number**?
 
 ```csharp
-object.IsNumericType();
-Exceptor.IsNumericType(this object obj);
+DefiningUtilities.IsNumber(this object obj);
 ```
 
-Example:
+**Example:**
 ```csharp
-using System;
-using UnityEngine;
+GameObject _gameObject = new GameObject();
+int _count = 50;
 
-public class Test : MonoBehaviour {
-  private GameObject _spawnedObject;
-
-  private void Start() 
-  {
-    if (_spawnedObject.IsNumericType()) 
-    {
-      // code...
-    }
-    else
-    {
-      // code...
-    }
-    
-    if (Exceptor.IsNumericType(_spawnedObject)) 
-    {
-      // code...
-    }
-    else
-    {
-      // code...
-    }
-  }
-}
+_gameObject.IsNumber(); // return FALSE.
+_count.IsNumber(); // return TRUE;
 ```
+
+If `object` is **null** - return `false`.
+
+------------
+
+
+#### IsBoolean
+
+`Object` is a **boolean**?
+
+```csharp
+DefiningUtilities.IsBoolean(this object obj)
+```
+
+**Example:**
+```csharp
+GameObject _gameObject = new GameObject();
+bool _isStayed = true;
+
+_gameObject.IsBoolean(); // return FALSE.
+_isStayed.IsBoolean(); // return TRUE;
+```
+If `object` is **null** - return `false`.
