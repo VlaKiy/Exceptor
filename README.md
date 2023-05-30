@@ -203,7 +203,7 @@ _obj.ThrowIfNotFound(_objects, "Obj in list of objects not be found!", "_obj");
 | ------------ | ------------ |
 | `DebugMode.Log`  | Write **log** in console.  |
 | `DebugMode.Warning`  |  Write **warning log** in console. |
-| `DebugMode.Error`  | Write** error log** in console.  |
+| `DebugMode.Error`  | Write **error log** in console.  |
 
 
 ------------
