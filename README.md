@@ -1,7 +1,7 @@
-# Exceptor v2.0.0
+# Exceptor v2.1.0
 
 ## Map
-* [Exceptor v2.0.0](#exceptor-v200)
+* [Exceptor v2.1.0](#exceptor-v210)
 * [Map](#map)
 * [Installation](#installation)
 * [Using](#using)
@@ -12,7 +12,9 @@
 		* [ThrowIfNull (Array)](#throwifnull-array)
 		* [ThrowIfOutOfRange](#throwifoutofrange)
 		* [ThrowIfValid](#throwifvalid)
+		* [ThrowIfValid (Array)](#throwifvalid-array)
 		* [ThrowIfInvalid](#throwifinvalid)
+		* [ThrowIfInvalid (Array)](#throwifinvalid-array)
 		* [ThrowIfNotFound](#throwifnotfound)
 	* [DebugUtilities](#debugutilities)
 		* [DebugMods](#debugmods)
@@ -91,19 +93,17 @@ _gameObject.ThrowIfNull("gameObject", "GameObject is null!");
 
 #### ThrowIfNull (Array)
 
-Throw `ArgumentNullException` if element of `objects` array is null.
+Throw `ArgumentNullException` if one of the `objects` array is **null**.
 
 ```csharp
-ExceptionUtilities.ThrowIfNull(this object[] objects, string message = null)
+ExceptionUtilities.ThrowIfNull(params object[] objects)
 ```
 
 **Example:**
 ```csharp
 private void DoSomething(GameObject first, GameObject second, Transform third) 
 {
-	object[] objects = new object[] {first, second, third};
-
-	objects.ThrowIfNull("Object is null!");
+	ThrowIfNull(first, second, third);
 }
 ```
 
@@ -153,6 +153,25 @@ _hasObject.ThrowIfValid("_hasObject", "You can't have object!");
 ------------
 
 
+#### ThrowIfValid (Array)
+
+Throw `ArgumentException` if one of the `conditions` is **true**.
+
+```csharp
+ExceptionUtilities.ThrowIfValid(params bool[] conditions)
+```
+
+**Example:**
+```csharp
+private void DoSomething(bool first, bool second, bool third) 
+{
+	ThrowIfValid(first, second, third);
+}
+```
+
+------------
+
+
 #### ThrowIfInvalid
 
 Throw `ArgumentException` if `condition` is `false`.
@@ -170,6 +189,25 @@ ExceptionUtilities.ThrowIfInvalid(
 bool _hasObject = false;
 
 _hasObject.ThrowIfInvalid("_hasObject", "You should have object!");
+```
+
+------------
+
+
+#### ThrowIfInvalid (Array)
+
+Throw `ArgumentException` if one of the `conditions` is **false**.
+
+```csharp
+ExceptionUtilities.ThrowIfInvalid(params bool[] conditions)
+```
+
+**Example:**
+```csharp
+private void DoSomething(bool first, bool second, bool third) 
+{
+	ThrowIfInvalid(first, second, third);
+}
 ```
 
 ------------
