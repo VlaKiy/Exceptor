@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System; 
+using UnityEngine;
 
 namespace Exceptor.Utilities
 {
@@ -46,7 +47,8 @@ namespace Exceptor.Utilities
         /// <param name="mode"></param>
         private static void DebugWithMode(string message, DebugMode mode = DebugMode.Log)
         {
-            message.ThrowIfNull("message", "Message is null");
+            if (message == null)
+                throw new ArgumentNullException("message", "Message is null");
 
             switch (mode)
             {

@@ -20,9 +20,7 @@ namespace Exceptor.Utilities
             Type type = obj.GetType();
 
             if (type == null)
-            {
                 return false;
-            }
 
             TypeCode typeCode = Type.GetTypeCode(type);
             
@@ -58,9 +56,7 @@ namespace Exceptor.Utilities
             Type type = obj.GetType();
 
             if (type == null)
-            {
                 return false;
-            }
 
             TypeCode typeCode = Type.GetTypeCode(type);
 

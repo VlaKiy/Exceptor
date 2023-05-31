@@ -39,18 +39,26 @@ namespace Exceptor.Utilities
         }
 
         /// <summary>
-        /// Throw ArgumentNullException if element of object array is null.
+        /// Throw ArgumentNullException if one of the objects array is null.
         /// </summary>
         /// <param name="objects"></param>
-        /// <param name="message"></param>
-        public static void ThrowIfNull(this object[] objects, string message = null)
+        public static void ThrowIfNull(params object[] objects)
         {
-            if (objects == null)
-                ThrowException(new ArgumentNullException("objects", "Objects is null!"));
+            objects.ThrowIfNull("objects", "Objects is null!");
+
+            int count = 0;
 
             for (int i = 0; i < objects.Length; i++)
             {
-                objects[i].ThrowIfNull(null, message);
+                object obj = objects[i];
+
+                if (obj == null)
+                    count++;
+            }
+
+            if (count > 0)
+            {
+                ThrowException(new ArgumentNullException("object", $"{count} objects are null!"));
             }
         }
 
@@ -82,6 +90,30 @@ namespace Exceptor.Utilities
         }
 
         /// <summary>
+        /// Throw ArgumentException if one of the conditions is true.
+        /// </summary>
+        /// <param name="conditions"></param>
+        public static void ThrowIfValid(params bool[] conditions)
+        {
+            conditions.ThrowIfNull("conditions", "Conditions is null!");
+
+            int count = 0;
+
+            for (int i = 0; i < conditions.Length; i++)
+            {
+                bool condition = conditions[i];
+
+                if (condition == true)
+                    count++;
+            }
+
+            if (count > 0)
+            {
+                ThrowException(new ArgumentException($"{count} conditions are TRUE!", "condition"));
+            }
+        }
+
+        /// <summary>
         /// Throw ArgumentException if condition is false.
         /// </summary>
         /// <param name="condition"></param>
@@ -91,6 +123,30 @@ namespace Exceptor.Utilities
         {
             if (!condition)
                 ThrowException(new ArgumentException(message, paramName));
+        }
+
+        /// <summary>
+        /// Throw ArgumentException if one of the conditions is false.
+        /// </summary>
+        /// <param name="conditions"></param>
+        public static void ThrowIfInvalid(params bool[] conditions)
+        {
+            conditions.ThrowIfNull("conditions", "Conditions is null!");
+
+            int count = 0;
+
+            for (int i = 0; i < conditions.Length; i++)
+            {
+                bool condition = conditions[i];
+
+                if (condition == false)
+                    count++;
+            }
+
+            if (count > 0)
+            {
+                ThrowException(new ArgumentException($"{count} conditions are FALSE!", "condition"));
+            }
         }
 
         /// <summary>
